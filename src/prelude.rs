@@ -12,7 +12,7 @@ impl Xorable<u64> for u64 {}
 impl Xorable<u128> for u128 {}
 
 #[allow(non_snake_case)]
-pub struct State<N, K>
+pub struct CipherState<N, K>
 where
     N: Xorable<N>,
     K: Xorable<K>,
@@ -26,7 +26,7 @@ where
 }
 
 #[allow(dead_code)]
-impl<N, K> State<N, K>
+impl<N, K> CipherState<N, K>
 where
     N: Xorable<N> + core::fmt::Debug,
     K: Xorable<K>,
@@ -34,6 +34,11 @@ where
     #[allow(non_snake_case)]
     pub fn new(L_i: N, R_i: N, Key: K) -> Self {
         return Self { L_i, R_i, Key };
+    }
+
+    pub fn update(&mut self, left: N, right: N) {
+        self.L_i = left;
+        self.R_i = right;
     }
 
     // Let F be the round function and let K_0,K_1,...,K_n be the sub-keys for the rounds 0,1,...,n
@@ -61,8 +66,25 @@ where
         }
 
         log::debug!("new-state: left -> {:?} right -> {:?}", left, right);
-        self.L_i = left;
-        self.R_i = right;
+        self.update(left, right);
+    }
+
+    pub fn compute_next_state_with_keyschedule<F, S>(&mut self, k: &mut S, rounds: usize)
+    where
+        F: Function<N, K>,
+        S: crate::crypto::keys::KeyScheduler<K>,
+    {
+        let (mut left, mut right) = (self.L_i, self.R_i);
+
+        for _ in 0..rounds {
+            // compute round key
+            let round_key = k.next_key();
+            let temp = left;
+            left = right ^ F::do_func(left, round_key);
+            right = temp;
+        }
+
+        self.update(left, right);
     }
 
     pub fn invert<F>(&mut self, k: K, rounds: usize)
@@ -77,8 +99,24 @@ where
             left = temp;
         }
 
-        self.L_i = left;
-        self.R_i = right;
+        self.update(left, right);
+    }
+
+    pub fn invert_with_keyschedule<F, S>(&mut self, k: &mut S, rounds: usize)
+    where
+        F: Function<N, K>,
+        S: crate::crypto::keys::KeyScheduler<K>,
+    {
+        let (mut left, mut right) = (self.L_i, self.R_i);
+
+        for _ in 0..rounds {
+            let round_key = k.next_key();
+            let temp = right;
+            right = left ^ F::do_func(right, round_key);
+            left = temp;
+        }
+
+        self.update(left, right);
     }
 }
 
@@ -125,7 +163,7 @@ mod test {
 
         let pt = (0x12345678u128, 0x9abcdef0u128);
         let k = 0xdeadbeefu128;
-        let mut state = State::<u128, u128>::new(pt.0, pt.1, k);
+        let mut state = CipherState::<u128, u128>::new(pt.0, pt.1, k);
         log::info!("original state: {:?}", (state.L_i, state.R_i));
         let rounds = 64;
 
