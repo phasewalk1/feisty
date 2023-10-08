@@ -127,5 +127,12 @@ where
         self.update(left, right);
     }
 }
+
 ```
 > [impl CipherState](https://github.com/phasewalk1/feisty/blob/master/src/prelude.rs#L29)
+
+## Yet to Implement
+- [ ] ***Key Scheduling***: Implement key scheduling algorithms to derive round keys from a master key.
+  - [ ] *Customizable Scheduling*
+- [ ] ***Better API***: The API is ugly and hard work with especially in terms of defining custom round functions.
+- [ ] ***Provide Good PRFs***: Implement good default pseudo random functions to be used as round functions, helps with _better API_.
