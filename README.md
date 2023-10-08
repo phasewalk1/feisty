@@ -6,7 +6,7 @@ The following code has been written only in purpose of furthering my understandi
 it wasn't developed to be used by anybody, i.e., don't roll this crypto.
 
 ## Construction
-_Feistel_ ciphers (or _Fiestel networks_) are a permutation component utilized by many block ciphers, from DES to newer ones such as [Cemillia](https://en.wikipedia.org/wiki/Camellia_(cipher)) and [Blowfish](https://en.wikipedia.org/wiki/Blowfish_(cipher)).
+_Feistel_ ciphers (or _Fiestel networks_) are a permutation component utilized by many block ciphers, from DES to newer ones such as [Camillia](https://en.wikipedia.org/wiki/Camellia_(cipher)) and [Blowfish](https://en.wikipedia.org/wiki/Blowfish_(cipher)).
 Feistel ciphers are good on bare metal because their entire substitution-permutation network is guaranteed to be invertible, nearly halving the required circuit size. 
 
 > <q>A Feistel network uses a round function, a function which takes two inputs – a data block and a subkey – and returns one output of the same size as the data block.In each round, the round function is run on half of the data to be encrypted, and its output is 
