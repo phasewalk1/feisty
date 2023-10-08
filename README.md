@@ -23,7 +23,7 @@ Let $F$ be the round function, $\oplus$ denote the bitwise XOR operator, and let
 2. For each round $i=0,1,...,n$ compute 
 $$L_{i+1}=R_i$$
 $$R_{i+1}=L_{i}\oplus F(R_i, K_i)$$
-3. Output ciphertext: $(R_{n+1},L_{n+1}$
+3. Output ciphertext: $(R_{n+1},L_{n+1})$
 
 ### Decryption
 Since the substitution-permutation network is entirely invertible, decryption is trivial when in posession of $K$, and is computed as follows:
@@ -35,7 +35,7 @@ Since the substitution-permutation network is entirely invertible, decryption is
 ## What's Implemented
 So far I've implemented the general encryption/decryption constructions over a generic `CipherState<N, K>` struct where `N: Xorable<N>` is a layer input type (e.g., `u32`, `u128`, etc.) and 
 `K: Xorable<K>` is a similar type for determining key width (i.e., 64, 128, etc.). First by defining a simple interface for types we expect to operate on. Input data types need to be XORable, 
-because we are going to XOR them against an output from $F$ (we add the additional paramater of `Add` so they are guaranteed to be addable in any $F$:
+because we are going to XOR them against an output from $F$ (we add the additional paramater of `Add` so they are guaranteed to be addable in any $F$):
 ```Rust
 pub trait Xorable<N>
 where
@@ -49,6 +49,7 @@ impl Xorable<u64> for u64 {}
 impl Xorable<u128> for u128 {}
 ```
 > [Xorable](https://github.com/phasewalk1/feisty/blob/master/src/prelude.rs#L4)
+
 Round functions are easier to represent generically, since their requirements are simple. Let $F(x,k)$ be the round function such that $F:N\times K\rightarrow N$. So our interface becomes
 ```Rust
 pub trait RoundFunction<N, K>
@@ -61,7 +62,7 @@ where
 ```
 > [Function](https://github.com/phasewalk1/feisty/blob/master/src/prelude.rs#L123)
 
-With these in place, we can construct a view of the `CipherState`, which contain $R_i$, $L_i$, and the round key $K_i$ (for reasons discussed later these are not being _scheduled_ yet and are instead static).
+With these in place, we can construct a view of the `CipherState`, which contains $R_i$, $L_i$, and the round key $K_i$ (for reasons discussed later these are not being _scheduled_ yet and are instead static).
 ```Rust
 #[allow(non_snake_case)]
 pub struct CipherState<N, K>
