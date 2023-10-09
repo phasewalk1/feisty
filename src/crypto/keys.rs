@@ -1,5 +1,5 @@
-use rand::RngCore;
 use rand::rngs::OsRng;
+use rand::RngCore;
 
 pub trait KeyScheduler<K> {
     fn new(master_key: K) -> Self;
