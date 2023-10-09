@@ -7,7 +7,7 @@ it wasn't developed to be used by anybody, i.e., don't roll this crypto.
 
 ## Construction
 _Feistel_ ciphers (or _Fiestel networks_) are a permutation component utilized by many block ciphers, from DES to newer ones such as [Camillia](https://en.wikipedia.org/wiki/Camellia_(cipher)) and [Blowfish](https://en.wikipedia.org/wiki/Blowfish_(cipher)).
-Feistel ciphers are good on bare metal because their entire substitution-permutation network is guaranteed to be invertible, nearly halving the required circuit size. 
+Feistel ciphers are good on bare metal because their entire construction is guaranteed to be invertible, nearly halving the required circuit size. 
 
 > <q>An important advantage of Feistel networks compared to other cipher designs such as substitution–permutation networks is that the entire operation 
 is guaranteed to be invertible (that is, encrypted data can be decrypted), even if the round function is not itself invertible. </q>
