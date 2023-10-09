@@ -25,11 +25,11 @@ $$R_{i+1}=L_{i}\oplus F(R_i, K_i)$$
 3. Output ciphertext: $(R_{n+1},L_{n+1})$
 
 ### Decryption
-Since the substitution-permutation network is entirely invertible, decryption is trivial when in posession of $K$, and is computed as follows:
+Since the construction is entirely invertible, decryption is trivial when in posession of $K$, and is computed as follows:
 1. For $i=n,n-1,...,0$, compute
    $$R_i=L_{i+1},$$
    $$L_i=R_{i+1}\oplus F(L_{i+1},K_i)$$
-   > Note that $i$ is reversed. This is essentially stepping through the substitution-permutation network backwards. Also note that $i$ is used to index the round key $K_i$, and thus it follows
+   > Note that $i$ is reversed. This is essentially stepping through the Feistel network backwards. Also note that $i$ is used to index the round key $K_i$, and thus it follows
    > that the round keys for decryption are defined as $K_n,K_{n-1},...K_0$.
 3. Output plaintext: $(L_0,R_0)$
 
