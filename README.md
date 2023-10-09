@@ -11,9 +11,9 @@ Feistel ciphers are good on bare metal because their entire substitution-permuta
 
 > <q>A Feistel network uses a round function, a function which takes two inputs – a data block and a subkey – and returns one output of the same size as the data block.In each round, the round function is run on half of the data to be encrypted, and its output is 
 XORed with the other half of the data. This is repeated a fixed number of times, and the final output is the encrypted data. An important advantage of Feistel networks compared to other cipher designs such as substitution–permutation networks is that the entire operation 
-is guaranteed to be invertible (that is, encrypted data can be decrypted), even if the round function is not itself invertible. The round function can be made arbitrarily complicated, since it does not need to be designed to be invertible. Furthermore, 
-the encryption and decryption operations are very similar, even identical in some cases, requiring only a reversal of the key schedule. Therefore, the size of the code or circuitry required to implement such a cipher is nearly halved. </q>
-https://en.wikipedia.org/wiki/Feistel_cipher#Design
+is guaranteed to be invertible (that is, encrypted data can be decrypted), even if the round function is not itself invertible. </q>
+> 
+> https://en.wikipedia.org/wiki/Feistel_cipher#Design
 
 The construction is as follows:
 
@@ -30,7 +30,9 @@ Since the substitution-permutation network is entirely invertible, decryption is
 1. For $i=n,n-1,...,0$, compute
    $$R_i=L_{i+1},$$
    $$L_i=R_{i+1}\oplus F(L_{i+1},K_i)$$
-2. Output plaintext: $(L_0,R_0)$
+   > Note that $i$ is reversed. This is essentially stepping through the substitution-permutation network backwards. Also notice as an effect, the scheduling of $K$ is also reversed, e.g., the round
+   > keys for decryption is defined as $K_n,K_{n-1},...K_0$
+3. Output plaintext: $(L_0,R_0)$
 
 ## What's Implemented
 So far I've implemented the general encryption/decryption constructions over a generic `CipherState<N, K>` struct where `N: Xorable<N>` is a layer input type (e.g., `u32`, `u128`, etc.) and 
