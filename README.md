@@ -9,8 +9,7 @@ it wasn't developed to be used by anybody, i.e., don't roll this crypto.
 _Feistel_ ciphers (or _Fiestel networks_) are a permutation component utilized by many block ciphers, from DES to newer ones such as [Camillia](https://en.wikipedia.org/wiki/Camellia_(cipher)) and [Blowfish](https://en.wikipedia.org/wiki/Blowfish_(cipher)).
 Feistel ciphers are good on bare metal because their entire substitution-permutation network is guaranteed to be invertible, nearly halving the required circuit size. 
 
-> <q>A Feistel network uses a round function, a function which takes two inputs – a data block and a subkey – and returns one output of the same size as the data block.In each round, the round function is run on half of the data to be encrypted, and its output is 
-XORed with the other half of the data. This is repeated a fixed number of times, and the final output is the encrypted data. An important advantage of Feistel networks compared to other cipher designs such as substitution–permutation networks is that the entire operation 
+> <q>An important advantage of Feistel networks compared to other cipher designs such as substitution–permutation networks is that the entire operation 
 is guaranteed to be invertible (that is, encrypted data can be decrypted), even if the round function is not itself invertible. </q>
 > 
 > https://en.wikipedia.org/wiki/Feistel_cipher#Design
@@ -30,8 +29,8 @@ Since the substitution-permutation network is entirely invertible, decryption is
 1. For $i=n,n-1,...,0$, compute
    $$R_i=L_{i+1},$$
    $$L_i=R_{i+1}\oplus F(L_{i+1},K_i)$$
-   > Note that $i$ is reversed. This is essentially stepping through the substitution-permutation network backwards. Also notice as an effect, the scheduling of $K$ is also reversed, e.g., the round
-   > keys for decryption is defined as $K_n,K_{n-1},...K_0$
+   > Note that $i$ is reversed. This is essentially stepping through the substitution-permutation network backwards. Also note that $i$ is used to index the round key $K_i$, and thus it follows
+   > that the round keys for decryption are defined as $K_n,K_{n-1},...K_0$.
 3. Output plaintext: $(L_0,R_0)$
 
 ## What's Implemented
