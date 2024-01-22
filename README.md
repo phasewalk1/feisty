@@ -20,15 +20,21 @@ The construction is as follows:
 Let $F$ be the round function, $\oplus$ denote the bitwise XOR operator, and let $K_0,K_1,...,K_n$ be the subkeys for the rounds $0,1,...,n$. Then the _forward_ operation is as follows,
 1. Split the plaintext block into two equal pieces: $(L_0, R_0)$
 2. For each round $i=0,1,...,n$ compute 
+
 $$L_{i+1}=R_i$$
+
 $$R_{i+1}=L_{i}\oplus F(R_i, K_i)$$
+
 3. Output ciphertext: $(R_{n+1},L_{n+1})$
 
 ### Decryption
 Since the construction is entirely invertible, decryption is trivial when in posession of $K$, and is computed as follows:
 1. For $i=n,n-1,...,0$, compute
-   $$R_i=L_{i+1},$$
-   $$L_i=R_{i+1}\oplus F(L_{i+1},K_i)$$
+
+$$R_i=L_{i+1},$$
+
+$$L_i=R_{i+1}\oplus F(L_{i+1},K_i)$$
+
    > Note that $i$ is reversed. This is essentially stepping through the Feistel network backwards. Also note that $i$ is used to index the round key $K_i$, and thus it follows
    > that the round keys for decryption are defined as $K_n,K_{n-1},...K_0$.
 3. Output plaintext: $(L_0,R_0)$
