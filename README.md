@@ -1,8 +1,6 @@
-# feisty
-Generic Feistel ciphers
-
 ## Forewarning
-The following code has been written only in purpose of furthering my understanding of [Feistel Ciphers](https://en.wikipedia.org/wiki/Feistel_cipher), and is not audited nor guaranteed to be _correct_. In other words, 
+> ⚠️
+> The following code has been written only in purpose of furthering my understanding of [Feistel Ciphers](https://en.wikipedia.org/wiki/Feistel_cipher), and is not audited nor guaranteed to be _correct_. In other words, 
 it wasn't developed to be used by anybody, i.e., don't roll this crypto.
 
 ## Construction
